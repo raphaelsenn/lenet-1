@@ -11,6 +11,14 @@ Implementation of [Backpropagation Applied to Handwritten Zip Code Recognition](
 ### Simulating the Dataset
 They used in the paper *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, but i cant find this dataset anywere, so i simulated it using MNIST.
 
+#### Viewing some random numbers
+
+![image](res/random_numbers.png)
+
+#### Number distribution
+
+![image](res/number_distribution.png)
+
 ## Citations
 
 ```bibtex
