@@ -57,13 +57,8 @@ def train(
         dataloader_train: DataLoader,
         dataloader_test: DataLoader,
         passes: int=23,
-        verbose: bool=True,
-        return_mse_mcr: bool=False
-        ) -> None | tuple:
-
-    # cache mse_loss (train, test) and error rate (train, test)
-    mse_mcr_train= []
-    mse_mcr_test = []
+        verbose: bool=True
+        ) -> None:
 
     # set model to train mode 
     model.train()
@@ -113,11 +108,6 @@ def train(
             report += f'train report - loss: {mse_train:.5f}\terror: {mcr_train:.5f}\tmissclassifications: {mc_train}\n'
             report += f'test  report - loss: {mse_test:.5f} \terror: {mcr_test:.5f} \tmissclassifications: {mc_test}\n'
             print(report)
-
-        if return_mse_mcr:
-            mse_mcr_train.append((mse_train, mcr_train))
-            mse_mcr_test.append((mse_test, mcr_test))
-    if return_mse_mcr: return (mse_mcr_train, mse_mcr_test)
 
 
 if __name__ == '__main__':

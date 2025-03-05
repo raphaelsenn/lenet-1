@@ -72,8 +72,6 @@ These results match pretty mutch the results from the original paper. Maybie wit
 
 - They used MSE as a objective instead of cross-entropy
 
-- What is Log MSE? Never heard of it. Intuition: Log MSE = $\frac{1}{N} \sum_{n=1}^{N} (log(y_n) - log\hat(y_n))^2)$ :D?
-
 - I used one hot encoding on the targets, because of the MSE objective
 
 - This Convolutional Neural Network is often called LeNet-1
