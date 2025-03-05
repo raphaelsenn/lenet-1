@@ -172,3 +172,7 @@ cython_debug/
 
 # Ignore data folder
 data
+
+# Ignore personal notebooks
+notes.ipynb
+notes_lenet1989.ipynb
