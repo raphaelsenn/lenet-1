@@ -53,9 +53,6 @@ test  report - loss: 0.00811    error: 0.04933  missclassifications: 99
 
 These results match pretty mutch the results from the original paper. Maybie with some hyperparameter optimization we will fit them mutch better.
 
-### Recreating the Plots from the Paper
-
-
 ## Notes
 
 - They used in the paper *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, i cant find this dataset anywere, so i simulated it using MNIST.
