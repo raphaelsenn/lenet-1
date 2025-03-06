@@ -11,13 +11,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions.uniform import Uniform
 
-class LeNet1989(nn.Module):
+class LeNet1(nn.Module):
     """
     Reproduction of the Convolutional Neural Network of the Paper:
     Backpropagation Applied to Handwritten Zip Code Recognition from 1989. 
     """ 
     def __init__(self) -> None:
-        super().__init__()
+        super(LeNet1, self).__init__()
 
         units = []          # keep track of units
         links = 0           # keep track of links
@@ -113,7 +113,7 @@ class LeNet1989(nn.Module):
         return out
 
     def __str__(self) -> str:
-        stats = 'Stats LeNet from 1989\n'
+        stats = 'Stats from LeNet-1\n'
         stats += f'total units:              {sum(self.units)}\n'
         stats += f'total connections:        {self.links}\n'
         stats += f'independent parameters:   {self.free_params}\n'

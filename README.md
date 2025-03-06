@@ -1,12 +1,16 @@
-# LeNet-1989
-Implementation of [Backpropagation Applied to Handwritten Zip Code Recognition](https://ieeexplore.ieee.org/document/6795724) in PyTorch.
+# LeNet-1
+Implementation of the Convolutional neural network (LeNet-1) described in the paper [Backpropagation Applied to Handwritten Zip Code Recognition](https://ieeexplore.ieee.org/document/6795724) in PyTorch.
+
 
 ![image](res/architecture.png)
 
+Im really to sure, that this is the acutal "LeNet-1", but wikipedia says so.
+
+**"In 1989, Yann LeCun et al. at Bell Labs first applied the backpropagation algorithm to practical applications, and believed that the ability to learn network generalization could be greatly enhanced by providing constraints from the task's domain. He combined a convolutional neural network trained by backpropagation algorithms to read handwritten numbers and successfully applied it in identifying handwritten zip code numbers provided by the US Postal Service. This was the prototype of what later came to be called LeNet-1.[3]"**
 
 ## Usage
 
-Just run:
+To train the model, just run:
 ```bash
 python3 train.py
 ```
@@ -51,27 +55,33 @@ train report - loss: 0.00101    error: 0.00521  missclassifications: 38
 test  report - loss: 0.00811    error: 0.04933  missclassifications: 99
 ```
 
-These results match pretty mutch the results from the original paper. Maybie with some hyperparameter optimization we will fit them mutch better.
+These results match pretty much the results from the original paper. Maybie with some hyperparameter optimization (for the best learning rate) we could achive better results.
 
 ## Notes
 
-- They used in the paper *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, i cant find this dataset anywere, so i simulated it using MNIST.
+Im really to sure, that this is the actual "LeNet-1", but wikipedia says so.
 
-- For units in layer H1 that are one unit apart, theier receptive fields (in the input layer) are two pixels apart $ \rightarrow $ `Stride = 2` (same from H1 to H2)
+**"In 1989, Yann LeCun et al. at Bell Labs first applied the backpropagation algorithm to practical applications, and believed that the ability to learn network generalization could be greatly enhanced by providing constraints from the task's domain. He combined a convolutional neural network trained by backpropagation algorithms to read handwritten numbers and successfully applied it in identifying handwritten zip code numbers provided by the US Postal Service. This was the prototype of what later came to be called LeNet-1.[3]"**
 
-- 1 Unit in H2.X with $X \in \{1, ..., 12\}$ has `8 * 5 * 5 = 200` inputs from eight of the $8 \times 8$ feature maps via the $5 \times 5$ kernels
+They used *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, i couldn't find this dataset in the internet, so i simulated it using MNIST.
 
-- Not clear explanation how to select 8 of the 12 feature maps between H1 and H2, did it like @karpathy
+*"For units in layer H1 that are one unit apart, theier receptive fields (in the input layer) are two pixels apart"* $ \rightarrow $ `Stride = 2` (same from H1 to H2)
 
-- No information about used hyperparameters (i.e. learning rate)
+1 Unit in H2.X with $X \in \{1, ..., 12\}$ has `8 * 5 * 5 = 200` inputs from eight of the $8 \times 8$ feature maps via the $5 \times 5$ kernels
 
-- No information how bias was initialized (assume zero)
+Not clear explanation how to select 8 of the 12 feature maps between H1 and H2, i did it like @karpathy
 
-- They used MSE as a objective instead of cross-entropy
+No information about padding
 
-- I used one hot encoding on the targets, because of the MSE objective
+No information about used hyperparameters (i.e. learning rate)
 
-- This Convolutional Neural Network is often called LeNet-1
+No information how the bias was initialized (assumed to be zero)
+
+They used mean squared error as a objective, instead of cross-entropy
+
+I one hot encoded the targets, because of the MSE objective
+
+This Convolutional Neural Network is often called LeNet-1
 
 ## Insights about the Data
 

@@ -8,13 +8,15 @@ Syntax:
     mse_train   : mean squarred error on training set
     mse_test    : mean squarred error on test set
 """
+import argparse
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
-from lenet_1989.create_data import create_data
-from lenet_1989.lenet1989 import LeNet1989
+from lenet1.create_data import create_data
+from lenet1.lenet1 import LeNet1
 
 
 def evaluate(
@@ -26,9 +28,12 @@ def evaluate(
     model.eval()
     device = next(model.parameters()).device 
 
+    # init criterion
+    criterion = nn.MSELoss()
+    
     total_loss = 0
     total_error = 0
-
+    
     # disable gradient calculations
     with torch.no_grad():
         for X_batch, y_batch in dataloader:
@@ -42,7 +47,7 @@ def evaluate(
             y_pred = model.forward(X_batch)
             
             # calculate MSE loss
-            loss = torch.mean((y_pred - y_batch_hot)**2)
+            loss = criterion(y_pred, y_batch_hot)
             total_loss += loss.item()
 
             # calculate error rate
@@ -56,8 +61,9 @@ def train(
         model: nn.Module,
         dataloader_train: DataLoader,
         dataloader_test: DataLoader,
-        passes: int=23,
-        verbose: bool=True
+        lr: float,
+        verbose: bool,
+        passes: int
         ) -> None:
 
     # set model to train mode 
@@ -70,7 +76,7 @@ def train(
     # init optimizer
     optimizer = torch.optim.SGD(
         params=model.parameters(),
-        lr=0.195)
+        lr=lr)
 
     # init objective
     criterion = nn.MSELoss()
@@ -79,7 +85,7 @@ def train(
         for X_batch, y_batch in dataloader_train:
             # move batches to same device as the model
             X_batch, y_batch = X_batch.to(device), y_batch.to(device)
-
+            
             # one hot encoding y_batch (for mse)
             y_batch_hot = F.one_hot(y_batch, num_classes=10).float()
 
@@ -111,14 +117,54 @@ def train(
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser() 
+    parser.add_argument(
+        '-lr',
+        '--learning_rate',
+        type=float,
+        default=0.1725,
+        help='Learning rate for stochastic gradient descent'
+    )
+    parser.add_argument(
+        '-p',
+        '--training_passes',
+        type=int,
+        default=23,
+        help='Number of training passes'
+    )
+    parser.add_argument(
+        '-verbose',
+        '--verbose',
+        type=bool,
+        default=True,
+        help='Printing: mse loss, error rate and number of missclassifications while training after each pass (measured on the entire training and test set)'
+    )
+    parser.add_argument(
+        '-seed',
+        '--seed',
+        type=int,
+        default=42,
+        help='Seed for reproducibility'
+    )
+    args = parser.parse_args()
+
     # load training and testing data
-    dataloader_train, dataloader_test = create_data() 
+    dataloader_train, dataloader_test = create_data(seed=args.seed) 
+
+    # set seed (to all devices, both CPU and CUDA)
+    torch.manual_seed(args.seed)
 
     # create the model
-    net = LeNet1989()
+    lenet = LeNet1()
 
     # printing model stats
-    print(net)
+    print(lenet)
 
     # start training
-    train(net, dataloader_train, dataloader_test)
+    train(
+        model=lenet,
+        dataloader_train=dataloader_train,
+        dataloader_test=dataloader_test,
+        lr=args.learning_rate,
+        verbose=args.verbose,
+        passes=args.training_passes)
