@@ -4,10 +4,6 @@ Implementation of the Convolutional neural network (LeNet-1) described in the pa
 
 ![image](res/architecture.png)
 
-Im really to sure, that this is the acutal "LeNet-1", but wikipedia says so.
-
-**"In 1989, Yann LeCun et al. at Bell Labs first applied the backpropagation algorithm to practical applications, and believed that the ability to learn network generalization could be greatly enhanced by providing constraints from the task's domain. He combined a convolutional neural network trained by backpropagation algorithms to read handwritten numbers and successfully applied it in identifying handwritten zip code numbers provided by the US Postal Service. This was the prototype of what later came to be called LeNet-1.[3]"**
-
 ## Usage
 
 To train the model, just run:
