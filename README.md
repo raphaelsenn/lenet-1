@@ -27,7 +27,7 @@ print(net)
 ```
 
 ```bash
-Stats LeNet from 1989
+Stats from LeNet-1
 total units:              1256
 total connections:        64660
 independent parameters:   9760
