@@ -62,15 +62,15 @@ def train(
         dataloader_train: DataLoader,
         dataloader_test: DataLoader,
         lr: float,
-        verbose: bool,
-        passes: int
+        passes: int,
+        device: str,
+        verbose: bool
         ) -> None:
 
     # set model to train mode 
     model.train()
 
-    # set device to cpu or gpu (if cuda is available)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # move model to correct device
     model.to(device)
 
     # init optimizer
@@ -146,6 +146,13 @@ if __name__ == '__main__':
         default=42,
         help='Seed for reproducibility'
     )
+    parser.add_argument(
+        '-d',
+        '--device',
+        type=str,
+        default='cpu',
+        help='Computing device: CPU or CUDA'
+    )
     args = parser.parse_args()
 
     # load training and testing data
@@ -166,5 +173,7 @@ if __name__ == '__main__':
         dataloader_train=dataloader_train,
         dataloader_test=dataloader_test,
         lr=args.learning_rate,
-        verbose=args.verbose,
-        passes=args.training_passes)
+        passes=args.training_passes,
+        device=args.device,
+        verbose=args.verbose
+    )
