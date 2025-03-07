@@ -6,33 +6,68 @@ Implementation of the Convolutional neural network (LeNet-1) described in the pa
 
 ## Usage
 
-To train the model, just run:
+
+#### Automatic training
+
+Just run:
 ```bash
 python3 train.py
 ```
 
+#### Manual training
+
+Creating the data:
+```python
+import torch
+from lenet1.create_data import create_data
+
+
+# set random seed
+seed = 42
+torch.manual_seed(seed)
+
+# create training and testing data
+dataloader_train, dataloader_test = create_data(seed=seed)
+```
+
 Creating the model:
 ```python
-from lenet_1989.lenet1989 import LeNet1989
+from lenet1.lenet1 import LeNet1
 
 
 # creating the model
-net = LeNet1989()
+lenet = LeNet1()
 
 # forward pass
-y_pred = net.forward(x)
+y_pred = lenet.forward(x)
 
 # printing model stats
-print(net)
+print(lenet)
 ```
 
 ```bash
-Stats from LeNet-1
+Stats LeNet-1
 total units:              1256
 total connections:        64660
 independent parameters:   9760
 ```
 
+Start training:
+```python
+from train import train
+
+
+# start training
+train(
+  lenet,              # model
+  dataloader_train,   # training data
+  dataloader_test,    # test data
+  0.15,               # learning rate
+  23,                 # training passes
+  'cpu',              # device
+  True                # printing mse, error rate, ... while training
+)
+```
 
 ## Results
 

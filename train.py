@@ -155,11 +155,11 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    # load training and testing data
-    dataloader_train, dataloader_test = create_data(seed=args.seed) 
-
     # set seed (to all devices, both CPU and CUDA)
     torch.manual_seed(args.seed)
+
+    # load training and testing data
+    dataloader_train, dataloader_test = create_data(seed=args.seed) 
 
     # create the model
     lenet = LeNet1()

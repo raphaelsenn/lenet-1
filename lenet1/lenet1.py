@@ -113,7 +113,7 @@ class LeNet1(nn.Module):
         return out
 
     def __str__(self) -> str:
-        stats = 'Stats from LeNet-1\n'
+        stats = 'Stats LeNet-1\n'
         stats += f'total units:              {sum(self.units)}\n'
         stats += f'total connections:        {self.links}\n'
         stats += f'independent parameters:   {self.free_params}\n'
