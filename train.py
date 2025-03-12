@@ -15,7 +15,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
-from lenet1.create_data import create_data
+from create_data import create_data
 from lenet1.lenet1 import LeNet1
 
 

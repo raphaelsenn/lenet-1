@@ -86,33 +86,69 @@ train report - loss: 0.00101    error: 0.00521  missclassifications: 38
 test  report - loss: 0.00811    error: 0.04933  missclassifications: 99
 ```
 
-These results match pretty much the results from the original paper. Maybie with some hyperparameter optimization (for the best learning rate) we could achive better results.
+These results match pretty much the results from the original paper. Maybie with some hyperparameter optimization (i.e. for the best learning rate) we could achive much better results.
 
 ## Notes
 
-Im really to sure, that this is the actual "LeNet-1", but wikipedia says so.
+#### About the Convolutional Neural Network
 
-**"In 1989, Yann LeCun et al. at Bell Labs first applied the backpropagation algorithm to practical applications, and believed that the ability to learn network generalization could be greatly enhanced by providing constraints from the task's domain. He combined a convolutional neural network trained by backpropagation algorithms to read handwritten numbers and successfully applied it in identifying handwritten zip code numbers provided by the US Postal Service. This was the prototype of what later came to be called LeNet-1.[3]"**
+* "LeNet-1" consists of three hidden layers (H1 to H3), and one output layer
 
-They used *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, i couldn't find this dataset in the internet, so i simulated it using MNIST.
+* Input is a $(16 \times 16)$ greyscale image (range between $[-1, 1]$), resulting in $16 * 16 = 256$ input neurons
 
-*"For units in layer H1 that are one unit apart, theier receptive fields (in the input layer) are two pixels apart"* $ \rightarrow $ `Stride = 2` (same from H1 to H2)
+##### Layer H1
 
-1 Unit in H2.X with $X \in \{1, ..., 12\}$ has `8 * 5 * 5 = 200` inputs from eight of the $8 \times 8$ feature maps via the $5 \times 5$ kernels
+* Layer $H1$ uses $12$ $(5 \times 5)$-kernels resulting in $12$ feature maps H1.1, ..., H1.12 where each feature map has a ($8 \times 8$) shape
 
-Not clear explanation how to select 8 of the 12 feature maps between H1 and H2, i did it like @karpathy
+* The $12$ $(12 \times 12)$-kernels result in $12 * 5 * 5 = 300$ learnable parameters (weights)
 
-No information about padding
+* Each Unit in $H1.X$ with $X \in \{1, ..., 12\}$ has its own bias (Conv2D in PyTorch uses $1$-bias for each feature map instead), resulting in $12 * 8 * 8 = 768$ biases
 
-No information about used hyperparameters (i.e. learning rate)
+* Therefore layer $H1$ consists of $300 + 768 = 1068$ learnable parameters
 
-No information how the bias was initialized (assumed to be zero)
+##### Layer H2
 
-They used mean squared error as a objective, instead of cross-entropy
+* Layer $H2$ uses a kernel of shape $(12 \times 8 \times 5 \times 5)$, resulting in $12 * 8 * 5 * 5 = 2400$ learnable parameteres (weight) 
 
-I one hot encoded the targets, because of the MSE objective
+* Each unit in $H2$ combines local information coming from $8$ of the $12$ different feature maps in $H1$
 
-This Convolutional Neural Network is often called LeNet-1
+* There is **NO** clear explanation how to select 8 of the 12 feature maps between layer $H1$ and $H2$, i did it like @karpathy
+
+* Each unit in $H2.X$ with $X \in \{1, ..., 12\}$ has $8 * 5 * 5 = 200$ inputs coming from $8$ $(8x8)$ feature maps (from H1) **AND** $1$-bias
+
+* $H2$ consists of $12 * 4 * 4 = 192$-biases
+
+* Therefore layer $H2$ consists of $2400 + 192 = 2592$ learnable parameters
+
+##### Layer H3
+
+* Layer $H3$ is fully connected to $H2$ (the $12$ feature maps H2.1, ..., H2.12 which are $12 * 4 * 4 = 192$ units)
+
+* $H3$ consists of $30$ units and biases, resulting in $192 * 30 + 30=5952$ learnable parameters 
+
+##### Output layer
+
+* The output layer is fully-connected to layer $H3$
+
+* The output layer consists of $10$ units and biases, resulting in $30 * 10 + 10 = 310$ learnable parameters
+
+##### More notes about the neural net
+
+* No information about padding
+
+* No information about used hyperparameters (i.e. learning rate)
+
+* No information how the biases were initialized (assumed to be zero)
+
+* They used mean squared error as a objective, instead of cross-entropy
+
+* I one hot encoded the targets, because of the MSE objective
+
+
+#### About the data
+
+* They used *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, i couldn't find this dataset in the internet, so i simulated it using MNIST.
+
 
 ## Insights about the Data
 
