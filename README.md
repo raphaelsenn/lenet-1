@@ -1,11 +1,9 @@
 # LeNet-1
-Implementation of the Convolutional neural network (LeNet-1) described in the paper [Backpropagation Applied to Handwritten Zip Code Recognition](https://ieeexplore.ieee.org/document/6795724) in PyTorch.
-
+Implementation of the convolutional neural network (LeNet-1) described in the paper [Backpropagation Applied to Handwritten Zip Code Recognition](https://ieeexplore.ieee.org/document/6795724) in PyTorch.
 
 ![image](res/architecture.png)
 
 ## Usage
-
 
 #### Automatic training
 
@@ -19,7 +17,7 @@ python3 train.py
 Creating the data:
 ```python
 import torch
-from lenet1.create_data import create_data
+from create_data import create_data
 
 
 # set random seed
@@ -73,14 +71,14 @@ train(
 
 Results of the paper after 23 passes:
 
-```bash
+```text
 pass: 23
 train report - loss: 0.00250     error: 0.0014   missclassifications: 10
 test  report - loss: 0.01800     error: 0.0500   missclassifications: 102
 ```
 My results after 23 passes:
 
-```bash
+```text
 pass: 23
 train report - loss: 0.00101    error: 0.00521  missclassifications: 38
 test  report - loss: 0.00811    error: 0.04933  missclassifications: 99
@@ -96,6 +94,9 @@ These results match pretty much the results from the original paper. Maybie with
 
 * Input is a $(16 \times 16)$ greyscale image (range between $[-1, 1]$), resulting in $16 * 16 = 256$ input neurons
 
+* *"For units in layer H1 that are one unit apart, their receptive fields (in the input layer) are two pixels apart.*" $ \implies $ `stride=2` (same between layer $H1$ and $H2$)
+
+
 ##### Layer H1
 
 * Layer $H1$ uses $12$ $(5 \times 5)$-kernels resulting in $12$ feature maps H1.1, ..., H1.12 where each feature map has a ($8 \times 8$) shape
@@ -108,11 +109,11 @@ These results match pretty much the results from the original paper. Maybie with
 
 ##### Layer H2
 
-* Layer $H2$ uses a kernel of shape $(12 \times 8 \times 5 \times 5)$, resulting in $12 * 8 * 5 * 5 = 2400$ learnable parameteres (weight) 
+* Layer $H2$ features $12$ feature maps, each feature map consists of $8$ $(5 \times 5)$-kernels, resulting in $12 * 8 * 5 * 5 = 2400$ learnable parameteres (weight) 
 
 * Each unit in $H2$ combines local information coming from $8$ of the $12$ different feature maps in $H1$
 
-* There is **NO** clear explanation how to select 8 of the 12 feature maps between layer $H1$ and $H2$, i did it like @karpathy
+* There is **NO** clear explanation how to select 8 of the 12 feature maps between layer $H1$ and $H2$, i did it like [@karpathy](https://github.com/karpathy)
 
 * Each unit in $H2.X$ with $X \in \{1, ..., 12\}$ has $8 * 5 * 5 = 200$ inputs coming from $8$ $(8x8)$ feature maps (from H1) **AND** $1$-bias
 
@@ -124,7 +125,7 @@ These results match pretty much the results from the original paper. Maybie with
 
 * Layer $H3$ is fully connected to $H2$ (the $12$ feature maps H2.1, ..., H2.12 which are $12 * 4 * 4 = 192$ units)
 
-* $H3$ consists of $30$ units and biases, resulting in $192 * 30 + 30=5952$ learnable parameters 
+* $H3$ consists of $30$ units and biases, resulting in $192 * 30 + 30=5790$ learnable parameters 
 
 ##### Output layer
 
@@ -140,15 +141,15 @@ These results match pretty much the results from the original paper. Maybie with
 
 * No information how the biases were initialized (assumed to be zero)
 
-* They used mean squared error as a objective, instead of cross-entropy
+* They used the mean squared error as an objective, instead of cross-entropy
 
-* I one hot encoded the targets, because of the MSE objective
-
+* I one hot encoded the targets (during training), because of the MSE objective
 
 #### About the data
 
-* They used *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*, i couldn't find this dataset in the internet, so i simulated it using MNIST.
+* They used *"9298 segmented numerals digitized from handwritten zip codes that appeared on U.S. mail passing through the Buffalo, NY post office. "*
 
+* I couldn't find this dataset in the internet, so i simulated it using MNIST.
 
 ## Insights about the Data
 
