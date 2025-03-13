@@ -92,46 +92,46 @@ These results match pretty much the results from the original paper. Maybie with
 
 * "LeNet-1" consists of three hidden layers (H1 to H3), and one output layer
 
-* Input is a $(16 \times 16)$ greyscale image (range between $[-1, 1]$), resulting in $16 * 16 = 256$ input neurons
+* Input is a $(16 \times 16)$ greyscale image (range between [-1, 1]), resulting in 16 * 16 = 256 input neurons
 
-* *"For units in layer H1 that are one unit apart, their receptive fields (in the input layer) are two pixels apart.*" $ \implies $ `stride=2` (same between layer $H1$ and $H2$)
+* *"For units in layer H1 that are one unit apart, their receptive fields (in the input layer) are two pixels apart.*" this implies `stride=2` (same between layer H1 and H2)
 
 
 ##### Layer H1
 
-* Layer $H1$ uses $12$ $(5 \times 5)$-kernels resulting in $12$ feature maps H1.1, ..., H1.12 where each feature map has a ($8 \times 8$) shape
+* Layer H1 uses 12 $(5 \times 5)$-kernels resulting in 12 feature maps H1.1, ..., H1.12 where each feature map has a $(8 \times 8)$-shape
 
-* The $12$ $(12 \times 12)$-kernels result in $12 * 5 * 5 = 300$ learnable parameters (weights)
+* The 12 $(12 \times 12)$-kernels result in 12 * 5 * 5 = 300 learnable parameters (weights)
 
-* Each Unit in $H1.X$ with $X \in \{1, ..., 12\}$ has its own bias (Conv2D in PyTorch uses $1$-bias for each feature map instead), resulting in $12 * 8 * 8 = 768$ biases
+* Each Unit in H1.X with $X \in \{1, ..., 12\}$ has its own bias (Conv2D in PyTorch uses 1-bias for each feature map instead), resulting in 12 * 8 * 8 = 768 biases
 
-* Therefore layer $H1$ consists of $300 + 768 = 1068$ learnable parameters
+* Therefore layer $H1$ consists of 300 + 768 = 1068 learnable parameters
 
 ##### Layer H2
 
-* Layer $H2$ features $12$ feature maps, each feature map consists of $8$ $(5 \times 5)$-kernels, resulting in $12 * 8 * 5 * 5 = 2400$ learnable parameteres (weight) 
+* Layer H2 features 12 feature maps, each feature map consists of 8 $(5 \times 5)$-kernels, resulting in 12 * 8 * 5 * 5 = 2400 learnable parameteres (weights) 
 
-* Each unit in $H2$ combines local information coming from $8$ of the $12$ different feature maps in $H1$
+* Each unit in H2 combines local information coming from 8 of the 12 different feature maps in H1
 
-* There is **NO** clear explanation how to select 8 of the 12 feature maps between layer $H1$ and $H2$, i did it like [@karpathy](https://github.com/karpathy)
+* There is **NO** clear explanation how to select 8 of the 12 feature maps between layer H1 and H2, i did it like [@karpathy](https://github.com/karpathy)
 
-* Each unit in $H2.X$ with $X \in \{1, ..., 12\}$ has $8 * 5 * 5 = 200$ inputs coming from $8$ $(8x8)$ feature maps (from H1) **AND** $1$-bias
+* Each unit in H2.X with $X \in \{1, ..., 12\}$ has 8 * 5 * 5 = 200 inputs coming from 8 $(8x8)$ feature maps (from H1) **AND** 1-bias
 
-* $H2$ consists of $12 * 4 * 4 = 192$-biases
+* H2 consists of 12 * 4 * 4 = 192-biases
 
-* Therefore layer $H2$ consists of $2400 + 192 = 2592$ learnable parameters
+* Therefore layer H2 consists of 2400 + 192 = 2592 learnable parameters
 
 ##### Layer H3
 
-* Layer $H3$ is fully connected to $H2$ (the $12$ feature maps H2.1, ..., H2.12 which are $12 * 4 * 4 = 192$ units)
+* Layer H3 is fully connected to H2 (the 12 feature maps H2.1, ..., H2.12 which are 12 * 4 * 4 = 192 units)
 
-* $H3$ consists of $30$ units and biases, resulting in $192 * 30 + 30=5790$ learnable parameters 
+* H3 consists of 30 units and biases, resulting in 192 * 30 + 30=5790 learnable parameters 
 
 ##### Output layer
 
-* The output layer is fully-connected to layer $H3$
+* The output layer is fully-connected to layer H3
 
-* The output layer consists of $10$ units and biases, resulting in $30 * 10 + 10 = 310$ learnable parameters
+* The output layer consists of 10 units and biases, resulting in 30 * 10 + 10 = 310 learnable parameters
 
 ##### More notes about the neural net
 
